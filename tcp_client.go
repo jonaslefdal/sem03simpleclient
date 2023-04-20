@@ -28,7 +28,7 @@ func main() {
 	} 
 	respone := string(buf[:n])
 	switch respone {
-	case "pong": 
+	case "": 
 	log.Println("response from proxy: ", respone)
 	default:
 	response := mycrypt.Krypter(([]rune(string(buf[:n]))), mycrypt.ALF_SEM03, len(mycrypt.ALF_SEM03)-4)
