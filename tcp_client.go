@@ -8,15 +8,15 @@ import (
 )
 
 func main() {
-	conn, err := net.Dial("tcp", "172.17.0.3:41391")
+	conn, err := net.Dial("tcp", "172.17.0.4:41391")
 	if err != nil {
 			log.Fatal(err)
 	}
 
-	log.Println("Orginal melding: ", os.Args[1])
+	log.Println("Din melding: ", os.Args[1])
 
 	kryptertMelding := mycrypt.Krypter([]rune(os.Args[1]), mycrypt.ALF_SEM03, 4)
-	log.Println("Kryptert melding: ", string(kryptertMelding))
+	log.Println("Kryptert sendt melding: ", string(kryptertMelding))
 	_, err = conn.Write([]byte(string(kryptertMelding)))
 	if err != nil {
 			log.Fatal(err)
@@ -26,8 +26,13 @@ func main() {
 	if err != nil {
 			log.Fatal(err)
 	} 
-
-	response := string(buf[:n])
-	log.Printf("reply from proxy: %s", response)
+	respone := string(buf[:n])
+	switch respone {
+	case "pong": 
+	log.Println("response from proxy: ", respone)
+	default:
+	response := mycrypt.Krypter(([]rune(string(buf[:n]))), mycrypt.ALF_SEM03, len(mycrypt.ALF_SEM03)-4)
+	log.Println("response from proxy:  ", string(response))
+}
 }
 
